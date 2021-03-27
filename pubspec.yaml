@@ -35,6 +35,8 @@ dependencies:
   flip_card: ^0.4.4
   percent_indicator: "^2.1.1"
   flutter_switch: ^0.0.2
+  firebase_auth: ^0.8.0
+
   #firebase_storage: ^7.0.0
   #firebase_database: ^2.0.3
   pdf: ^2.0.0

@@ -1,4 +1,5 @@
 import 'package:accidenyally/accueil/menu.dart/menu.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'boutton.dart';
@@ -7,6 +8,11 @@ import 'inscription.dart';
 class Homepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _formkey = GlobalKey<FormState>();
+
+    TextEditingController _emailcontroller = TextEditingController();
+
+    TextEditingController _passwordcontroller = TextEditingController();
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -52,6 +58,7 @@ class Homepage extends StatelessWidget {
                                           bottom: BorderSide(
                                               color: Colors.indigo[900]))),
                                   child: TextField(
+                                    controller: _emailcontroller,
                                     decoration: InputDecoration(
                                       labelText: "Email",
                                       hintText:
@@ -67,6 +74,7 @@ class Homepage extends StatelessWidget {
                                           bottom: BorderSide(
                                               color: Colors.indigo[900]))),
                                   child: TextField(
+                                    controller: _passwordcontroller,
                                     decoration: InputDecoration(
                                       labelText: "Mot de passe",
                                       hintStyle: TextStyle(color: Colors.black),
@@ -83,13 +91,25 @@ class Homepage extends StatelessWidget {
                                       text: "Login",
                                       textColors: Colors.white,
                                       bgcolor: Colors.indigo[900],
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  inscription(),
-                                            ));
+                                      onPressed: () async {
+                                        var result = await FirebaseAuth.instance
+                                            .signInWithEmailAndPassword(
+                                                email: _emailcontroller.text,
+                                                password:
+                                                    _passwordcontroller.text);
+                                        if (result != null) {
+                                          print('Welcome');
+                                          print(
+                                              "==================================");
+                                          print(result.displayName);
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      HomeScreen()));
+                                        } else {
+                                          print('user not found');
+                                        }
                                       },
                                     ),
                                   ),
