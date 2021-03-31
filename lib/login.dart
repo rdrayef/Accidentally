@@ -5,14 +5,32 @@ import 'package:flutter/material.dart';
 import 'boutton.dart';
 import 'inscription.dart';
 
-class Homepage extends StatelessWidget {
+class Lgn extends StatefulWidget {
+  @override
+  _LgnState createState() => _LgnState();
+}
+
+class _LgnState extends State<Lgn> {
+  void initState() {
+    super.initState();
+  }
+
+  final _formkey = GlobalKey<FormState>();
+
+  TextEditingController _emailcontroller = TextEditingController();
+
+  TextEditingController _passwordcontroller = TextEditingController();
+  @override
+  void dispose() {
+    _emailcontroller.dispose();
+
+    _passwordcontroller.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final _formkey = GlobalKey<FormState>();
-
-    TextEditingController _emailcontroller = TextEditingController();
-
-    TextEditingController _passwordcontroller = TextEditingController();
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -57,61 +75,77 @@ class Homepage extends StatelessWidget {
                                       border: Border(
                                           bottom: BorderSide(
                                               color: Colors.indigo[900]))),
-                                  child: TextField(
-                                    controller: _emailcontroller,
-                                    decoration: InputDecoration(
-                                      labelText: "Email",
-                                      hintText:
-                                          "ex:ibtissam.eljounahi@gmail.com",
-                                      hintStyle: TextStyle(color: Colors.black),
-                                      labelStyle: TextStyle(color: Colors.grey),
-                                    ),
-                                  ),
+                                  child: TextFormField(
+                                      controller: _emailcontroller,
+                                      decoration: InputDecoration(
+                                        labelText: "Email",
+                                        hintText: "exemple@gmail.com",
+                                        hintStyle:
+                                            TextStyle(color: Colors.black12),
+                                        labelStyle:
+                                            TextStyle(color: Colors.grey),
+                                      ),
+                                      // ignore: missing_return
+                                      validator: (value) {
+                                        if (value.isEmpty) {
+                                          return 'Remplir le champ';
+                                        }
+                                      }),
                                 ),
                                 Container(
                                   decoration: BoxDecoration(
                                       border: Border(
                                           bottom: BorderSide(
                                               color: Colors.indigo[900]))),
-                                  child: TextField(
+                                  child: TextFormField(
                                     controller: _passwordcontroller,
                                     decoration: InputDecoration(
                                       labelText: "Mot de passe",
                                       hintStyle: TextStyle(color: Colors.black),
                                       labelStyle: TextStyle(color: Colors.grey),
                                     ),
-                                    obscureText: true,
+
+                                    // ignore: missing_return
+                                    /* validator: (value) {
+                                        if (value.isEmpty) {
+                                          return 'Remplir le champ';
+                                        } */
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 15, vertical: 50),
                                   child: Container(
-                                    child: orgbutton(
-                                      text: "Login",
-                                      textColors: Colors.white,
-                                      bgcolor: Colors.indigo[900],
-                                      onPressed: () async {
-                                        var result = await FirebaseAuth.instance
-                                            .signInWithEmailAndPassword(
-                                                email: _emailcontroller.text,
-                                                password:
-                                                    _passwordcontroller.text);
-                                        if (result != null) {
-                                          print('Welcome');
-                                          print(
-                                              "==================================");
-                                          print(result.displayName);
-                                          Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      HomeScreen()));
-                                        } else {
-                                          print('user not found');
+                                    child: RaisedButton(
+                                        color: Colors.blue,
+                                        child: Text(
+                                          'Login',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        onPressed: () async {
+                                          // if (_formkey.currentState.validate()) {
+                                          var result = await FirebaseAuth
+                                              .instance
+                                              .signInWithEmailAndPassword(
+                                                  email: _emailcontroller.text,
+                                                  password:
+                                                      _passwordcontroller.text);
+                                          if (result != null) {
+                                            print('Welcome');
+                                            print(
+                                                "==================================");
+                                            print(result.displayName);
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        HomeScreen()));
+                                          } else {
+                                            print('user not found');
+                                          }
                                         }
-                                      },
-                                    ),
+                                        // },
+                                        ),
                                   ),
                                 ),
                                 Padding(
@@ -137,7 +171,7 @@ class Homepage extends StatelessWidget {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  HomeScreen(),
+                                                  nscription(),
                                             ));
                                       },
                                       child: Text(

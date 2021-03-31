@@ -1,8 +1,28 @@
 import 'package:flutter/material.dart';
-
+import 'package:uuid/uuid.dart';
+import 'package:uuid/uuid_util.dart';
 import 'boutton.dart';
 
-class inscription extends StatelessWidget {
+class Inscription extends StatefulWidget {
+  @override
+  _InscriptionState createState() => _InscriptionState();
+}
+
+class _InscriptionState extends State<Inscription> {
+  void initState() {
+    var uuid = Uuid();
+    var v4_crypto = uuid.v4(options: {'rng': UuidUtil.cryptoRNG});
+    super.initState();
+    _idcontroller.text = v4_crypto.substring(0, 8);
+  }
+
+  final _formkey = GlobalKey<FormState>();
+  TextEditingController _idcontroller = TextEditingController();
+  void dispose() {
+    _idcontroller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,6 +81,24 @@ class inscription extends StatelessWidget {
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
                               children: <Widget>[
+                                Container(
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: Colors.indigo[900]))),
+                                  child: TextFormField(
+                                    readOnly: true,
+                                    controller: _idcontroller,
+                                    decoration: InputDecoration(
+                                      floatingLabelBehavior:
+                                          FloatingLabelBehavior.always,
+                                      labelText: "ID",
+                                      /* hintText: v4_crypto.substring(0, 8), */
+                                      hintStyle: TextStyle(color: Colors.black),
+                                      labelStyle: TextStyle(color: Colors.grey),
+                                    ),
+                                  ),
+                                ),
                                 Container(
                                   decoration: BoxDecoration(
                                       border: Border(
@@ -132,6 +170,33 @@ class inscription extends StatelessWidget {
                                     obscureText: true,
                                   ),
                                 ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: Colors.indigo[900]))),
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      labelText: "Date Naissance",
+                                      labelStyle: TextStyle(color: Colors.grey),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: Colors.indigo[900]))),
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      labelText: "Adresse",
+                                      hintText:
+                                          "ex:ibtissam.eljounahi@gmail.com",
+                                      hintStyle: TextStyle(color: Colors.black),
+                                      labelStyle: TextStyle(color: Colors.grey),
+                                    ),
+                                  ),
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 20, vertical: 50),
@@ -144,27 +209,6 @@ class inscription extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                FlatButton(
-                                  onPressed: (null),
-                                  child: Text(
-                                    "Mot de passe oublié?",
-                                    style: TextStyle(
-                                      color: Colors.black54,
-                                      fontSize: 17,
-                                    ),
-                                  ),
-                                ),
-                                FlatButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pushNamed('logine');
-                                    },
-                                    child: Text(
-                                      "Créer un nouveau compte",
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                        fontSize: 19,
-                                      ),
-                                    ))
                               ],
                             ),
                           ),

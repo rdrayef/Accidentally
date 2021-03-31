@@ -1,11 +1,20 @@
 import 'dart:io';
 import 'dart:ui';
 import 'package:accidenyally/accueil/menu.dart/menu.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class profilepage extends StatefulWidget {
   @override
   _profilepageState createState() => _profilepageState();
+}
+
+final FirebaseAuth auth = FirebaseAuth.instance;
+final uid = '';
+void inputData() async {
+  final FirebaseUser user = await auth.currentUser();
+  final uid = user.uid;
+  // here you write the codes to input the data into firestore
 }
 
 class _profilepageState extends State<profilepage> {
@@ -14,7 +23,7 @@ class _profilepageState extends State<profilepage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        elevation: 1,
+        elevation: 0,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
@@ -31,7 +40,7 @@ class _profilepageState extends State<profilepage> {
         actions: [
           IconButton(
             icon: Icon(
-              Icons.save,
+              Icons.save_alt_rounded,
               color: Colors.indigo[900],
             ),
             onPressed: () {},
@@ -112,7 +121,7 @@ class _profilepageState extends State<profilepage> {
                   ),
                   labelText: "Nom",
                   floatingLabelBehavior: FloatingLabelBehavior.always,
-                  hintText: "ALAOUI",
+                  hintText: uid,
                   hintStyle: TextStyle(color: Colors.black54),
                   labelStyle: TextStyle(
                       color: Colors.indigo[900],

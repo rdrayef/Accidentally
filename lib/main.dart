@@ -4,7 +4,7 @@ import 'package:accidenyally/anim.dart';
 import 'package:accidenyally/colors.dart';
 import 'package:accidenyally/login.dart';
 import 'package:accidenyally/services/splash.dart';
-import 'package:accidenyally/testlgn.dart';
+
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
@@ -123,7 +123,7 @@ class _AnimationAndCurveDemoState extends State<AnimationAndCurveDemo>
             ),
           ],
         ),
-        Container(
+        /*   Container(
           child: Row(
             children: [
               Text(
@@ -142,7 +142,7 @@ class _AnimationAndCurveDemoState extends State<AnimationAndCurveDemo>
             'version 1.0',
             style: TextStyle(color: Colors.white),
           ),
-        )
+        ) */
       ],
     );
   }
@@ -154,6 +154,6 @@ class _AnimationAndCurveDemoState extends State<AnimationAndCurveDemo>
 
   route() {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => Homepage()));
+        context, MaterialPageRoute(builder: (context) => Lgn()));
   }
 }
