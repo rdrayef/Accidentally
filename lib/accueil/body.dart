@@ -14,7 +14,7 @@ class Body extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          HeaderWithSearchBox(size: size),
+          Headerf(),
           Container(
             child: Column(
               children: [

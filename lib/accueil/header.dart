@@ -1,25 +1,82 @@
+import 'package:accidenyally/profile.dart';
 import 'package:flutter/material.dart';
 
 import '../colors.dart';
 import 'cercle.dart';
 //import 'package:flutter_svg/flutter_svg.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class HeaderWithSearchBox extends StatelessWidget {
-  const HeaderWithSearchBox({
+//import 'package:flutter_svg/flutter_svg.dart';
+
+class Headerf extends StatefulWidget {
+/*   const Headerf({
     Key key,
     @required this.size,
   }) : super(key: key);
+  final Size size; */
 
-  final Size size;
+  @override
+  _HeaderfState createState() => _HeaderfState();
+}
+
+class _HeaderfState extends State<Headerf> {
+/*   final _auth = FirebaseAuth.instance;
+  final _firestore = Firestore.instance;
+  void getdonnees() async {
+    final don = await _firestore.collection('utl').getDocuments();
+    for (var donn in don.documents) {
+      print(donn.data);
+    }
+  } */
+
+  /*  Widget getdata() {
+    StreamBuilder<QuerySnapshot>(
+        stream: _firestore.collection('utl').document(userid).snapshots(),
+        // ignore: missing_return
+        builder: (context, snapshot) {
+      if (snapshot.hasData) {
+        final dons = snapshot.data.documents;
+        for (var inf in dons) {
+          final nom = inf.data['nom'];
+          final id = inf.data['id'];
+        }
+      }
+    });
+  }
+ */
+
+  final _firestore = Firestore.instance;
+  final String prenom = "";
+  String nom = "";
+  getdonnees() async {
+    final FirebaseUser user = await auth.currentUser();
+    final userid = user.uid;
+    await for (var snapshot
+        in _firestore.collection('utilisateurs').document(userid).snapshots()) {
+      /* for (var donn in snapshot.) {
+        print(donn.data);
+      } */
+      if (snapshot != null) {
+        nom = snapshot.data['Nom'];
+        print(snapshot.data['Nom']);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    var res;
     return Container(
       margin: EdgeInsets.only(bottom: kDefaultPadding * 0.2),
       // It will cover 20% of our total height
       height: size.height * 0.34,
       child: Stack(
         children: <Widget>[
+          /* 
+              }) */
+
           Container(
             padding: EdgeInsets.only(
               left: kDefaultPadding,
@@ -40,10 +97,14 @@ class HeaderWithSearchBox extends StatelessWidget {
                 Container(
                   child: Row(children: <Widget>[
                     Container(
-                      // padding: new EdgeInsets.only(top: 3.0),
-                      child: Text('23 , janvier 2021 ',
-                          style: TextStyle(color: griscolor)),
-                    ),
+                        // padding: new EdgeInsets.only(top: 3.0),
+                        /*  child: Text('23 , janvier 2021 ',
+                          style: TextStyle(color: griscolor)), */
+                        child: IconButton(
+                            icon: Icon(Icons.add),
+                            onPressed: () {
+                              getdonnees();
+                            })),
                     Spacer(),
                     /*  Text('ID :xxxxxx ',
                         style: TextStyle(
@@ -57,7 +118,7 @@ class HeaderWithSearchBox extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.fromLTRB(1, 0.5, 20, 0),
                       child: Text(
-                        'Bienvenu,Sophia ',
+                        'Bienvenu,$nom ',
                         style: Theme.of(context).textTheme.headline5.copyWith(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),

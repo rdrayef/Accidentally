@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'package:uuid/uuid_util.dart';
@@ -18,6 +20,13 @@ class _InscriptionState extends State<Inscription> {
 
   final _formkey = GlobalKey<FormState>();
   TextEditingController _idcontroller = TextEditingController();
+  TextEditingController _emailcontroller = TextEditingController();
+  TextEditingController _pswdcontroller = TextEditingController();
+  TextEditingController _nomcontroller = TextEditingController();
+  TextEditingController _prenomcontroller = TextEditingController();
+  TextEditingController _cincontroller = TextEditingController();
+  TextEditingController _datenaissancecontroller = TextEditingController();
+  TextEditingController _adressecontroller = TextEditingController();
   void dispose() {
     _idcontroller.dispose();
     super.dispose();
@@ -105,6 +114,7 @@ class _InscriptionState extends State<Inscription> {
                                           bottom: BorderSide(
                                               color: Colors.indigo[900]))),
                                   child: TextField(
+                                    controller: _nomcontroller,
                                     decoration: InputDecoration(
                                       labelText: "Nom",
                                       hintText: "saisi votre nom de famille",
@@ -119,6 +129,7 @@ class _InscriptionState extends State<Inscription> {
                                           bottom: BorderSide(
                                               color: Colors.indigo[900]))),
                                   child: TextField(
+                                    controller: _prenomcontroller,
                                     decoration: InputDecoration(
                                       labelText: "prénom",
                                       hintText: "saisi votre prénom",
@@ -133,6 +144,7 @@ class _InscriptionState extends State<Inscription> {
                                           bottom: BorderSide(
                                               color: Colors.indigo[900]))),
                                   child: TextField(
+                                    controller: _cincontroller,
                                     decoration: InputDecoration(
                                       labelText: "CIN",
                                       hintText: "saisi votre CIN",
@@ -147,11 +159,12 @@ class _InscriptionState extends State<Inscription> {
                                           bottom: BorderSide(
                                               color: Colors.indigo[900]))),
                                   child: TextField(
+                                    controller: _emailcontroller,
                                     decoration: InputDecoration(
                                       labelText: "Email",
-                                      hintText:
-                                          "ex:ibtissam.eljounahi@gmail.com",
-                                      hintStyle: TextStyle(color: Colors.black),
+                                      hintText: "exemple@gmail.com",
+                                      hintStyle:
+                                          TextStyle(color: Colors.black12),
                                       labelStyle: TextStyle(color: Colors.grey),
                                     ),
                                   ),
@@ -162,6 +175,7 @@ class _InscriptionState extends State<Inscription> {
                                           bottom: BorderSide(
                                               color: Colors.indigo[900]))),
                                   child: TextField(
+                                    controller: _pswdcontroller,
                                     decoration: InputDecoration(
                                       labelText: "Mot de passe",
                                       hintStyle: TextStyle(color: Colors.black),
@@ -176,6 +190,7 @@ class _InscriptionState extends State<Inscription> {
                                           bottom: BorderSide(
                                               color: Colors.indigo[900]))),
                                   child: TextField(
+                                    controller: _datenaissancecontroller,
                                     decoration: InputDecoration(
                                       labelText: "Date Naissance",
                                       labelStyle: TextStyle(color: Colors.grey),
@@ -188,11 +203,12 @@ class _InscriptionState extends State<Inscription> {
                                           bottom: BorderSide(
                                               color: Colors.indigo[900]))),
                                   child: TextField(
+                                    controller: _adressecontroller,
                                     decoration: InputDecoration(
                                       labelText: "Adresse",
-                                      hintText:
-                                          "ex:ibtissam.eljounahi@gmail.com",
-                                      hintStyle: TextStyle(color: Colors.black),
+                                      hintText: "exemple@gmail.com",
+                                      hintStyle:
+                                          TextStyle(color: Colors.black12),
                                       labelStyle: TextStyle(color: Colors.grey),
                                     ),
                                   ),
@@ -201,11 +217,37 @@ class _InscriptionState extends State<Inscription> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 20, vertical: 50),
                                   child: Container(
-                                    child: orgbutton(
-                                      text: "Envoyer",
-                                      textColors: Colors.white,
-                                      bgcolor: Colors.indigo[900],
-                                      onPressed: () {},
+                                    child: RaisedButton(
+                                      color: Colors.blue,
+                                      child: Text(
+                                        'S\'inscrire',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      onPressed: () async {
+                                        var result = await FirebaseAuth.instance
+                                            .createUserWithEmailAndPassword(
+                                                email: _emailcontroller.text,
+                                                password: _pswdcontroller.text);
+                                        if (result != null) {
+                                          Firestore.instance
+                                              .collection('utilisateurs')
+                                              .document(result.uid)
+                                              .setData({
+                                            'ID_utilisateur':
+                                                _idcontroller.text,
+                                            'Nom': _nomcontroller.text,
+                                            'Prenom': _prenomcontroller.text,
+                                            'Adresse': _adressecontroller.text,
+                                            'CIN': _cincontroller.text,
+                                            'Login': _emailcontroller.text,
+                                            'Password': _pswdcontroller.text,
+                                            'Date_naissance':
+                                                _datenaissancecontroller.text,
+                                          });
+                                        } else {
+                                          print('not inserted');
+                                        }
+                                      },
                                     ),
                                   ),
                                 ),

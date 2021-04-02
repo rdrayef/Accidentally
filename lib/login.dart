@@ -171,7 +171,7 @@ class _LgnState extends State<Lgn> {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  nscription(),
+                                                  Inscription(),
                                             ));
                                       },
                                       child: Text(
