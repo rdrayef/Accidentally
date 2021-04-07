@@ -1,3 +1,4 @@
+import 'package:accidenyally/accueil/menu.dart/menu.dart';
 import 'package:accidenyally/constat/page_constat.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,7 @@ class _BoddyState extends State<Boddy> {
       appBar: new AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Text("Notifications",
+        title: Text("Constat N°xxxx",
             style: TextStyle(color: bluecolor, fontSize: 26)),
         centerTitle: true,
         leading: IconButton(
@@ -28,7 +29,7 @@ class _BoddyState extends State<Boddy> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Constat()),
+                MaterialPageRoute(builder: (context) => Accueil()),
               );
             }),
       ),

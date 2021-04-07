@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:accidenyally/anim.dart';
 import 'package:accidenyally/colors.dart';
 import 'package:accidenyally/login.dart';
+import 'package:accidenyally/services/m_servicess.dart';
 import 'package:accidenyally/services/splash.dart';
 
 import 'package:flutter/material.dart';
@@ -123,26 +124,6 @@ class _AnimationAndCurveDemoState extends State<AnimationAndCurveDemo>
             ),
           ],
         ),
-        /*   Container(
-          child: Row(
-            children: [
-              Text(
-                'Accidental',
-                style: TextStyle(fontSize: 35, color: Colors.white),
-              ),
-              Text(
-                '.ly',
-                style: TextStyle(fontSize: 35, color: rougecolor),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          child: Text(
-            'version 1.0',
-            style: TextStyle(color: Colors.white),
-          ),
-        ) */
       ],
     );
   }

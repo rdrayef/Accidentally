@@ -1,3 +1,4 @@
+import 'package:accidenyally/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -217,37 +218,49 @@ class _InscriptionState extends State<Inscription> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 20, vertical: 50),
                                   child: Container(
-                                    child: RaisedButton(
-                                      color: Colors.blue,
-                                      child: Text(
-                                        'S\'inscrire',
-                                        style: TextStyle(color: Colors.white),
+                                    child: SizedBox(
+                                      height: 45,
+                                      width: 180,
+                                      child: RaisedButton(
+                                        color: bluecolor,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(25)),
+                                        child: Text(
+                                          "S'inscrire",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 24),
+                                        ),
+                                        onPressed: () async {
+                                          var result = await FirebaseAuth
+                                              .instance
+                                              .createUserWithEmailAndPassword(
+                                                  email: _emailcontroller.text,
+                                                  password:
+                                                      _pswdcontroller.text);
+                                          if (result != null) {
+                                            Firestore.instance
+                                                .collection('utilisateurs')
+                                                .document(result.uid)
+                                                .setData({
+                                              'ID_utilisateur':
+                                                  _idcontroller.text,
+                                              'Nom': _nomcontroller.text,
+                                              'Prenom': _prenomcontroller.text,
+                                              'Adresse':
+                                                  _adressecontroller.text,
+                                              'CIN': _cincontroller.text,
+                                              'Login': _emailcontroller.text,
+                                              'Password': _pswdcontroller.text,
+                                              'Date_naissance':
+                                                  _datenaissancecontroller.text,
+                                            });
+                                          } else {
+                                            print('not inserted');
+                                          }
+                                        },
                                       ),
-                                      onPressed: () async {
-                                        var result = await FirebaseAuth.instance
-                                            .createUserWithEmailAndPassword(
-                                                email: _emailcontroller.text,
-                                                password: _pswdcontroller.text);
-                                        if (result != null) {
-                                          Firestore.instance
-                                              .collection('utilisateurs')
-                                              .document(result.uid)
-                                              .setData({
-                                            'ID_utilisateur':
-                                                _idcontroller.text,
-                                            'Nom': _nomcontroller.text,
-                                            'Prenom': _prenomcontroller.text,
-                                            'Adresse': _adressecontroller.text,
-                                            'CIN': _cincontroller.text,
-                                            'Login': _emailcontroller.text,
-                                            'Password': _pswdcontroller.text,
-                                            'Date_naissance':
-                                                _datenaissancecontroller.text,
-                                          });
-                                        } else {
-                                          print('not inserted');
-                                        }
-                                      },
                                     ),
                                   ),
                                 ),

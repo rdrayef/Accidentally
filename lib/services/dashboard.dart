@@ -6,11 +6,11 @@ class Dashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: <Widget>[
-        SizedBox(height: 10),
+        SizedBox(height: 2),
         CarouselSlider(
             items: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.7,
+                height: MediaQuery.of(context).size.height * 0.1,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.0),
                     image: DecorationImage(
@@ -113,13 +113,13 @@ class Dashboard extends StatelessWidget {
               )
             ],
             options: CarouselOptions(
-                height: 185.5,
+                height: MediaQuery.of(context).size.height * 0.25,
                 enlargeCenterPage: true,
                 autoPlay: true,
-                aspectRatio: 16 / 9,
-                autoPlayCurve: Curves.fastOutSlowIn,
+                aspectRatio: 1 / 6,
+                autoPlayCurve: Curves.easeInCirc,
                 enableInfiniteScroll: true,
-                autoPlayAnimationDuration: Duration(milliseconds: 750),
+                autoPlayAnimationDuration: Duration(milliseconds: 500),
                 viewportFraction: 0.8)),
       ],
     );

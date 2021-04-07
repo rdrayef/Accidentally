@@ -134,6 +134,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.4"
+  firebase_storage:
+    dependency: "direct main"
+    description:
+      name: firebase_storage
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.1+2"
   flip_card:
     dependency: "direct main"
     description:
@@ -153,6 +160,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.6"
+  flutter_pdfview:
+    dependency: "direct main"
+    description:
+      name: flutter_pdfview
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.4"
+  flutter_plugin_android_lifecycle:
+    dependency: transitive
+    description:
+      name: flutter_plugin_android_lifecycle
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.11"
   flutter_staggered_grid_view:
     dependency: "direct main"
     description:
@@ -199,7 +220,7 @@ packages:
     source: hosted
     version: "1.1.2"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
       url: "https://pub.dartlang.org"
@@ -219,6 +240,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.19"
+  image_picker:
+    dependency: "direct main"
+    description:
+      name: image_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.7+22"
+  image_picker_platform_interface:
+    dependency: transitive
+    description:
+      name: image_picker_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.6"
+  image_viewer:
+    dependency: "direct main"
+    description:
+      name: image_viewer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   intl:
     dependency: transitive
     description:
@@ -385,6 +427,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0-nullsafety.1"
+  syncfusion_flutter_core:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_core
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "18.4.49"
+  syncfusion_flutter_pdf:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_pdf
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "18.4.49-beta"
   term_glyph:
     dependency: transitive
     description:
@@ -442,5 +498,5 @@ packages:
     source: hosted
     version: "4.5.1"
 sdks:
-  dart: ">=2.10.0-110 <2.11.0"
+  dart: ">=2.10.0 <2.11.0"
   flutter: ">=1.18.0-6.0.pre <2.0.0"

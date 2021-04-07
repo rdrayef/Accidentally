@@ -1,87 +1,60 @@
-import 'package:accidenyally/profile.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../colors.dart';
 import 'cercle.dart';
 //import 'package:flutter_svg/flutter_svg.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
-//import 'package:flutter_svg/flutter_svg.dart';
 
 class Headerf extends StatefulWidget {
-/*   const Headerf({
-    Key key,
-    @required this.size,
-  }) : super(key: key);
-  final Size size; */
-
   @override
   _HeaderfState createState() => _HeaderfState();
 }
 
-class _HeaderfState extends State<Headerf> {
-/*   final _auth = FirebaseAuth.instance;
-  final _firestore = Firestore.instance;
-  void getdonnees() async {
-    final don = await _firestore.collection('utl').getDocuments();
-    for (var donn in don.documents) {
-      print(donn.data);
-    }
-  } */
+final now = new DateTime.now();
+String formatter = DateFormat('dd/MM/yyyy HH:mm').format(now);
+var _userName;
 
-  /*  Widget getdata() {
-    StreamBuilder<QuerySnapshot>(
-        stream: _firestore.collection('utl').document(userid).snapshots(),
-        // ignore: missing_return
-        builder: (context, snapshot) {
-      if (snapshot.hasData) {
-        final dons = snapshot.data.documents;
-        for (var inf in dons) {
-          final nom = inf.data['nom'];
-          final id = inf.data['id'];
-        }
-      }
+var imgp;
+
+class _HeaderfState extends State<Headerf> {
+  Future<void> _getUserName() async {
+    Firestore.instance
+        .collection('utilisateurs')
+        .document((await FirebaseAuth.instance.currentUser()).uid)
+        .get()
+        .then((value) {
+      setState(() {
+        _userName = value.data['Prenom'];
+
+        imgp = value.data['img_profile'];
+      });
     });
   }
- */
 
-  final _firestore = Firestore.instance;
-  final String prenom = "";
-  String nom = "";
-  getdonnees() async {
-    final FirebaseUser user = await auth.currentUser();
-    final userid = user.uid;
-    await for (var snapshot
-        in _firestore.collection('utilisateurs').document(userid).snapshots()) {
-      /* for (var donn in snapshot.) {
-        print(donn.data);
-      } */
-      if (snapshot != null) {
-        nom = snapshot.data['Nom'];
-        print(snapshot.data['Nom']);
-      }
-    }
+  @override
+  void initState() {
+    _getUserName();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    double devwidth(BuildContext context) => MediaQuery.of(context).size.width;
+    double devheight(BuildContext context) =>
+        MediaQuery.of(context).size.height;
     Size size = MediaQuery.of(context).size;
-    var res;
     return Container(
-      margin: EdgeInsets.only(bottom: kDefaultPadding * 0.2),
-      // It will cover 20% of our total height
+      margin: EdgeInsets.only(bottom: devheight(context) * 0.01),
       height: size.height * 0.34,
       child: Stack(
         children: <Widget>[
-          /* 
-              }) */
-
           Container(
             padding: EdgeInsets.only(
               left: kDefaultPadding,
               right: kDefaultPadding,
-              bottom: 90 + kDefaultPadding,
+              bottom: devheight(context) / 15,
             ),
             height: size.height * 0.26,
             decoration: BoxDecoration(
@@ -93,47 +66,50 @@ class _HeaderfState extends State<Headerf> {
             ),
             child: Column(
               children: <Widget>[
-                /*********************** */
                 Container(
                   child: Row(children: <Widget>[
                     Container(
-                        // padding: new EdgeInsets.only(top: 3.0),
-                        /*  child: Text('23 , janvier 2021 ',
-                          style: TextStyle(color: griscolor)), */
-                        child: IconButton(
-                            icon: Icon(Icons.add),
-                            onPressed: () {
-                              getdonnees();
-                            })),
+                      child:
+                          Text(formatter, style: TextStyle(color: griscolor)),
+                    ),
                     Spacer(),
-                    /*  Text('ID :xxxxxx ',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: griscolor)
-                            ),*/
                   ]),
                 ),
                 /******************** */
                 Container(
                   child: Row(children: <Widget>[
                     Container(
-                      margin: const EdgeInsets.fromLTRB(1, 0.5, 20, 0),
+                      margin: const EdgeInsets.fromLTRB(1, 0.5, 0, 2),
                       child: Text(
-                        'Bienvenu,$nom ',
+                        'Bienvenue, ',
                         style: Theme.of(context).textTheme.headline5.copyWith(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),
+                    Container(
+                      child: Text(
+                        _userName,
+                        style: Theme.of(context).textTheme.headline5.copyWith(
+                            color: rougecolor, fontWeight: FontWeight.bold),
+                      ),
+                    ),
                     Spacer(),
                     Container(
-                      margin: const EdgeInsets.fromLTRB(20, 0.5, 0, 13),
-                      width: 70,
+                      margin: const EdgeInsets.fromLTRB(20, 0.5, 0, 15),
+                      /*  width: 70,
                       height: 70,
                       decoration: BoxDecoration(
                         color: bluecolor,
                         borderRadius: BorderRadius.circular(80 / 2),
-                        image: DecorationImage(
-                            image: NetworkImage(
-                                "https://writestylesonline.com/wp-content/uploads/2016/08/Follow-These-Steps-for-a-Flawless-Professional-Profile-Picture.jpg")),
+                        image: DecorationImage(image: NetworkImage(imgp)),
+                      ),
+                       */
+                      child: SizedBox(
+                        height: 80,
+                        width: 80,
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(imgp),
+                        ),
                       ),
                     ),
                   ]),
@@ -153,8 +129,11 @@ class _HeaderfState extends State<Headerf> {
                   /***1 */
                   Container(
                     alignment: Alignment.center,
-                    margin: EdgeInsets.symmetric(horizontal: kDefaultPadding),
-                    padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                    margin: EdgeInsets.only(
+                      left: devwidth(context) / 25,
+                    ),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: devwidth(context) / 17),
                     height: 170,
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -186,8 +165,11 @@ class _HeaderfState extends State<Headerf> {
                   /**2 */
                   Container(
                     alignment: Alignment.center,
-                    margin: EdgeInsets.symmetric(horizontal: kDefaultPadding),
-                    padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                    margin: EdgeInsets.only(
+                      left: devwidth(context) / 17,
+                    ),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: devwidth(context) / 17),
                     height: 170,
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -217,8 +199,11 @@ class _HeaderfState extends State<Headerf> {
                   /**3 */
                   Container(
                     alignment: Alignment.center,
-                    margin: EdgeInsets.symmetric(horizontal: kDefaultPadding),
-                    padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                    margin: EdgeInsets.only(
+                      left: devwidth(context) / 14,
+                    ),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: devwidth(context) / 17),
                     height: 170,
                     decoration: BoxDecoration(
                       color: Colors.white,

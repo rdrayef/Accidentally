@@ -1,118 +1,148 @@
 import 'package:accidenyally/accueil/menu.dart/menu.dart';
+import 'package:accidenyally/colors.dart';
+import 'package:accidenyally/documents/cards.dart';
+import 'package:accidenyally/documents/test.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import 'categories.dart';
 
-class Documents extends StatelessWidget {
-  // This widget is the root of your application.
+class Documents extends StatefulWidget {
+  @override
+  _DocumentsState createState() => _DocumentsState();
+}
+
+double espace = 1240.00;
+double percent = espace / 5000;
+
+class _DocumentsState extends State<Documents> {
+  String espaces = espace.toStringAsFixed(2);
+
   @override
   Widget build(BuildContext context) {
-    String espace = '1240 MB';
-    /* var screenSize = MediaQuery.of(context).size;
-    var swidth = screenSize.width;
-    var sheight = screenSize.height; */
+    var size = MediaQuery.of(context).size;
     return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-          title: Text('Documents',
-              style: TextStyle(
-                  fontSize: 25,
-                  backgroundColor: Colors.transparent,
-                  color: Colors.deepPurple[900])),
-          centerTitle: true,
-          leading: new IconButton(
-              icon: new Icon(
-                Icons.arrow_back_ios_sharp,
-                color: Colors.deepPurple[900],
-              ),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomeScreen(),
-                    ));
-              }),
-        ),
-        body: ListView(
-          children: <Widget>[
-            Container(
-              margin: const EdgeInsets.symmetric(
-                vertical: 10.0,
-                horizontal: 20.0,
-              ),
-              padding: const EdgeInsets.all(10.0),
-              height: 90,
-              decoration: BoxDecoration(
-                color: Colors.deepPurple[900],
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  SvgPicture.asset(
-                    'assets/icons/folderempty.svg',
-                    height: 80,
+        home: Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              shadowColor: Colors.transparent,
+              title: Text('Documents',
+                  style: TextStyle(
+                      fontSize: 25,
+                      backgroundColor: Colors.transparent,
+                      color: Colors.deepPurple[900])),
+              centerTitle: true,
+              leading: new IconButton(
+                  icon: new Icon(
+                    Icons.arrow_back_ios_sharp,
+                    color: Colors.deepPurple[900],
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Accueil(),
+                        ));
+                  }),
+            ),
+            body: Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 10.0,
+                    horizontal: 20.0,
+                  ),
+                  padding: const EdgeInsets.all(10.0),
+                  height: size.height * 0.15,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      gradient: LinearGradient(
+                          colors: [Colors.indigo[800], Colors.indigo[600]],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight),
+                      boxShadow: [
+                        BoxShadow(
+                            color: bluecolor,
+                            blurRadius: 1.5,
+                            offset: Offset(0, 6)),
+                      ]),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
-                      Text(
-                        'Espace utilisé',
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold),
+                      SvgPicture.asset(
+                        'assets/icons/folderempty.svg',
+                        height: size.height * 0.13,
                       ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        espace,
-                        style: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 15,
-                        ),
-                        maxLines: 1,
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      LinearPercentIndicator(
-                        width: 210,
-                        lineHeight: 8.0,
-                        percent: 0.4,
-                        progressColor: Colors.tealAccent[400],
-                        backgroundColor: Colors.white,
-                        animation: true,
-                        animationDuration: 2000,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            'Espace utilisé',
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: size.height * 0.01,
+                          ),
+                          Text(
+                            espaces + ' MB',
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 15,
+                            ),
+                            maxLines: 1,
+                          ),
+                          SizedBox(
+                            height: size.height * 0.015,
+                          ),
+                          LinearPercentIndicator(
+                            width: size.width * 0.6,
+                            lineHeight: 8.0,
+                            percent: percent,
+                            progressColor: Colors.tealAccent[400],
+                            backgroundColor: Colors.white,
+                            animation: true,
+                            animationDuration: 2000,
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
-              ),
-            ),
-            Categories(),
-            Column(children: [
-              Row(
-                children: [
-                  Text(
-                    "Fichiers Récents",
+                ),
+                Container(
+                    margin: EdgeInsets.only(top: size.height * 0.03),
+                    child: Categories()),
+                Container(
+                  child: Text(
+                    'Mes Fichiers',
                     style: TextStyle(
-                        color: Colors.grey[800],
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15),
+                      fontSize: 25,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ],
-              )
-            ]),
-          ],
-        ),
-      ),
-    );
+                ),
+                Container(child: Testscard())
+              ],
+            )));
   }
 }
+/*Column(children: [
+              Row(
+                children: [
+                  Container(
+                    
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Container(),
+                ],
+              ),
+            ]),*/

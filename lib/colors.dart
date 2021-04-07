@@ -10,4 +10,5 @@ const pyscolors = Color(0xFF1AF028);
 const moutrdcolor = Color(0xFFFF9100);
 const blufanccolor = Color(0xFFAFC2E7);
 const rougggecolor = Color(0xFFFF0606);
+const services_blue = Color(0xFFEDEFF2);
 const double kDefaultPadding = 18.7;

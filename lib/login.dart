@@ -1,8 +1,9 @@
 import 'package:accidenyally/accueil/menu.dart/menu.dart';
+import 'package:accidenyally/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'boutton.dart';
+import 'documents/test.dart';
 import 'inscription.dart';
 
 class Lgn extends StatefulWidget {
@@ -116,36 +117,46 @@ class _LgnState extends State<Lgn> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 15, vertical: 50),
                                   child: Container(
-                                    child: RaisedButton(
-                                        color: Colors.blue,
-                                        child: Text(
-                                          'Login',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        onPressed: () async {
-                                          // if (_formkey.currentState.validate()) {
-                                          var result = await FirebaseAuth
-                                              .instance
-                                              .signInWithEmailAndPassword(
-                                                  email: _emailcontroller.text,
-                                                  password:
-                                                      _passwordcontroller.text);
-                                          if (result != null) {
-                                            print('Welcome');
-                                            print(
-                                                "==================================");
-                                            print(result.displayName);
-                                            Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        HomeScreen()));
-                                          } else {
-                                            print('user not found');
+                                    child: SizedBox(
+                                      height: 45,
+                                      width: 180,
+                                      child: RaisedButton(
+                                          color: bluecolor,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(25)),
+                                          child: Text(
+                                            "Login",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 24),
+                                          ),
+                                          onPressed: () async {
+                                            // if (_formkey.currentState.validate()) {
+                                            var result = await FirebaseAuth
+                                                .instance
+                                                .signInWithEmailAndPassword(
+                                                    email:
+                                                        _emailcontroller.text,
+                                                    password:
+                                                        _passwordcontroller
+                                                            .text);
+                                            if (result != null) {
+                                              print('Welcome');
+                                              print(
+                                                  "==================================");
+                                              Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Accueil()));
+                                            } else {
+                                              print('user not found');
+                                            }
                                           }
-                                        }
-                                        // },
-                                        ),
+                                          // },
+                                          ),
+                                    ),
                                   ),
                                 ),
                                 Padding(

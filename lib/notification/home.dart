@@ -32,7 +32,7 @@ class _NotificatioState extends State<Notificatio> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                  MaterialPageRoute(builder: (context) => Accueil()),
                 );
               }),
         ),

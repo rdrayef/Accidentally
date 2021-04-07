@@ -1,38 +1,49 @@
+import 'package:accidenyally/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Categories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Container(
-      height: 195,
+      height: size.height * 0.33,
       child: Padding(
         padding: const EdgeInsets.all(18.0),
         child: ListView(
           scrollDirection: Axis.horizontal,
           children: <Widget>[
-            _mediaStack("assets/images/pdf.png", Colors.red, "Fichiers PDF",
-                "12 objets", Colors.red[900], Icons.east_rounded, Colors.white),
-            SizedBox(
-              width: 12,
-            ),
             _mediaStack(
-                "assets/images/image.png",
-                Colors.deepPurple[800],
-                "Images",
-                "53 objets",
-                Colors.deepPurple,
+                "assets/images/pdf.png",
+                rougecolor,
+                Colors.pink,
+                "Fichiers PDF",
+                "12 objets",
+                Colors.red[900],
                 Icons.east_rounded,
                 Colors.white),
             SizedBox(
               width: 12,
             ),
             _mediaStack(
-                "assets/images/illustration.png",
-                Colors.orange[400],
+                "assets/images/image.png",
+                Colors.yellow[900],
+                Colors.yellow[700],
+                "Images",
+                "53 objets",
+                Colors.yellow[800],
+                Icons.east_rounded,
+                Colors.white),
+            SizedBox(
+              width: 12,
+            ),
+            _mediaStack(
+                "assets/images/paint.png",
+                Colors.indigo[600],
+                Colors.indigo[800],
                 "Illustrations",
                 "15 objets",
-                Colors.orange,
+                Colors.indigo[600],
                 Icons.east_rounded,
                 Colors.white),
           ],
@@ -44,8 +55,8 @@ class Categories extends StatelessWidget {
 
 void newMethod() {}
 
-Widget _mediaStack(String image, Color color, String media, String item,
-    Color shadow, IconData icon, Color iconcolor) {
+Widget _mediaStack(String image, Color scolor, Color encolor, String media,
+    String item, Color shadow, IconData icon, Color iconcolor) {
   return Stack(
     children: <Widget>[
       Opacity(
@@ -54,9 +65,14 @@ Widget _mediaStack(String image, Color color, String media, String item,
           height: 177,
           width: 168,
           decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(18.0),
-          ),
+              borderRadius: BorderRadius.circular(18.0),
+              gradient: LinearGradient(
+                  colors: [scolor, encolor],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight),
+              boxShadow: [
+                BoxShadow(color: scolor, blurRadius: 1.5, offset: Offset(0, 6)),
+              ]),
         ),
       ),
       Positioned(
@@ -99,7 +115,7 @@ Widget _mediaStack(String image, Color color, String media, String item,
           children: <Widget>[
             Padding(
               padding: EdgeInsets.all(8.0),
-              child: Icon(icon, color: iconcolor),
+              child: Icon(icon, color: Colors.black),
             ),
           ],
         ),

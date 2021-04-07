@@ -1,4 +1,6 @@
-import 'package:accidenyally/services/services.dart';
+import 'package:accidenyally/services/m_servicess.dart';
+import 'package:accidenyally/services/service.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -12,11 +14,10 @@ class Content extends StatelessWidget {
       children: <Widget>[
         Container(child: Dashboard()),
         Container(
-            margin: EdgeInsets.only(top: 200),
-            child: Padding(
-              child: Service(),
-              padding: EdgeInsets.all(10),
-            ))
+          margin:
+              EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.25),
+          child: Servicesse(),
+        )
       ],
     ));
   }

@@ -1,4 +1,5 @@
 import 'package:accidenyally/accueil/menu.dart/menu.dart';
+import 'package:accidenyally/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 
@@ -27,7 +28,7 @@ class Parametres extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => HomeScreen(),
+                      builder: (context) => Accueil(),
                     ));
               }),
         ),
@@ -60,7 +61,10 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           Column(
             children: [
-              _buildContainer(),
+              _buildContainer(
+                  MediaQuery.of(context).size.height * 0.075,
+                  MediaQuery.of(context).size.height * 0.7,
+                  MediaQuery.of(context).size.width * 0.85),
             ],
           )
         ],
@@ -69,14 +73,14 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 }
 
-Widget _buildContainer() {
+Widget _buildContainer(double mheight, double boxheight, double boxweight) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Container(
-        margin: EdgeInsets.only(top: 15),
-        height: 530,
-        width: 340,
+        margin: EdgeInsets.only(top: mheight),
+        height: boxheight,
+        width: boxweight,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(
@@ -91,7 +95,7 @@ Widget _buildContainer() {
         ),
         child: ListView(
           children: <Widget>[
-            _items(),
+            switchclass(),
           ],
         ),
       ),
@@ -99,159 +103,173 @@ Widget _buildContainer() {
   );
 }
 
-Widget _items() {
-  bool istoggled = true;
-  return Container(
-      margin: EdgeInsets.fromLTRB(0, 15, 0, 8),
-      child: Column(
-        children: [
-          ListTile(
-            leading: Icon(
-              Icons.info,
-              color: Colors.redAccent[700],
-              size: 30,
-            ),
-            title: Text(
-              "Termes et conditions",
-              style: TextStyle(fontSize: 21, fontWeight: FontWeight.w400),
-            ),
-            trailing: Icon(
-              Icons.keyboard_arrow_right,
-              size: 29,
-              color: Colors.deepPurple[900],
-            ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          _builddivider(),
-          SizedBox(
-            height: 15,
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.sync,
-              color: Colors.redAccent[700],
-              size: 30,
-            ),
-            title: Text(
-              "Mise à jour",
-              style: TextStyle(fontSize: 21, fontWeight: FontWeight.w400),
-            ),
-            trailing: Icon(
-              Icons.keyboard_arrow_right,
-              size: 29,
-              color: Colors.deepPurple[900],
-            ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          _builddivider(),
-          SizedBox(
-            height: 15,
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.notifications_active,
-              color: Colors.redAccent[700],
-              size: 30,
-            ),
-            title: Text(
-              "Notifications",
-              style: TextStyle(fontSize: 21, fontWeight: FontWeight.w400),
-            ),
-            trailing: FlutterSwitch(
-              height: 21,
-              width: 44.0,
-              padding: 4.0,
-              toggleSize: 16.0,
-              borderRadius: 10.0,
-              activeColor: Colors.deepPurple[900],
-              inactiveColor: Colors.redAccent[700],
-              value: istoggled,
-              onToggle: (bool value) {
-                setState(() {
-                  istoggled = value;
-                  print('btn press: $istoggled');
-                });
-              },
-            ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          _builddivider(),
-          SizedBox(
-            height: 15,
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.flag,
-              color: Colors.redAccent[700],
-              size: 30,
-            ),
-            title: Text(
-              "Langues",
-              style: TextStyle(fontSize: 21, fontWeight: FontWeight.w400),
-            ),
-            trailing: Icon(
-              Icons.keyboard_arrow_right,
-              size: 29,
-              color: Colors.deepPurple[900],
-            ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          _builddivider(),
-          SizedBox(
-            height: 15,
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.build,
-              color: Colors.redAccent[700],
-              size: 30,
-            ),
-            title: Text(
-              "Types de services",
-              style: TextStyle(fontSize: 21, fontWeight: FontWeight.w400),
-            ),
-            trailing: Icon(
-              Icons.keyboard_arrow_right,
-              size: 29,
-              color: Colors.deepPurple[900],
-            ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          _builddivider(),
-          SizedBox(
-            height: 15,
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.share,
-              color: Colors.redAccent[700],
-              size: 30,
-            ),
-            title: Text(
-              "Partager",
-              style: TextStyle(fontSize: 21, fontWeight: FontWeight.w400),
-            ),
-            trailing: Icon(
-              Icons.keyboard_arrow_right,
-              size: 29,
-              color: Colors.deepPurple[900],
-            ),
-          ),
-        ],
-      ));
+class switchclass extends StatefulWidget {
+  @override
+  _switchclassState createState() => _switchclassState();
 }
 
-void setState(Null Function() param0) {}
+class _switchclassState extends State<switchclass> {
+  bool isSwitched = false;
+  var textValue = 'Switch is OFF';
+  void toggleSwitch(bool value) {
+    if (isSwitched == false) {
+      setState(() {
+        isSwitched = true;
+        textValue = 'Switch Button is ON';
+      });
+      print('Switch Button is ON');
+    } else {
+      setState(() {
+        isSwitched = false;
+        textValue = 'Switch Button is OFF';
+      });
+      print('Switch Button is OFF');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        margin: EdgeInsets.fromLTRB(0, 15, 0, 8),
+        child: Column(
+          children: [
+            ListTile(
+              leading: Icon(
+                Icons.info,
+                color: Colors.redAccent[700],
+                size: 30,
+              ),
+              title: Text(
+                "Termes et conditions",
+                style: TextStyle(fontSize: 21, fontWeight: FontWeight.w400),
+              ),
+              trailing: Icon(
+                Icons.keyboard_arrow_right,
+                size: 29,
+                color: Colors.deepPurple[900],
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            _builddivider(),
+            SizedBox(
+              height: 15,
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.sync,
+                color: Colors.redAccent[700],
+                size: 30,
+              ),
+              title: Text(
+                "Mise à jour",
+                style: TextStyle(fontSize: 21, fontWeight: FontWeight.w400),
+              ),
+              trailing: Icon(
+                Icons.keyboard_arrow_right,
+                size: 29,
+                color: Colors.deepPurple[900],
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            _builddivider(),
+            SizedBox(
+              height: 15,
+            ),
+            ListTile(
+                leading: Icon(
+                  Icons.notifications_active,
+                  color: Colors.redAccent[700],
+                  size: 30,
+                ),
+                title: Text(
+                  "Notifications",
+                  style: TextStyle(fontSize: 21, fontWeight: FontWeight.w400),
+                ),
+                trailing: Switch(
+                  onChanged: toggleSwitch,
+                  value: isSwitched,
+                  activeColor: Colors.grey[100],
+                  activeTrackColor: bluecolor,
+                  inactiveThumbColor: Colors.grey[100],
+                  inactiveTrackColor: rougggecolor,
+                )),
+            SizedBox(
+              height: 15,
+            ),
+            _builddivider(),
+            SizedBox(
+              height: 15,
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.flag,
+                color: Colors.redAccent[700],
+                size: 30,
+              ),
+              title: Text(
+                "Langues",
+                style: TextStyle(fontSize: 21, fontWeight: FontWeight.w400),
+              ),
+              trailing: Icon(
+                Icons.keyboard_arrow_right,
+                size: 29,
+                color: Colors.deepPurple[900],
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            _builddivider(),
+            SizedBox(
+              height: 15,
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.build,
+                color: Colors.redAccent[700],
+                size: 30,
+              ),
+              title: Text(
+                "Types de services",
+                style: TextStyle(fontSize: 21, fontWeight: FontWeight.w400),
+              ),
+              trailing: Icon(
+                Icons.keyboard_arrow_right,
+                size: 29,
+                color: Colors.deepPurple[900],
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            _builddivider(),
+            SizedBox(
+              height: 15,
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.share,
+                color: Colors.redAccent[700],
+                size: 30,
+              ),
+              title: Text(
+                "Partager",
+                style: TextStyle(fontSize: 21, fontWeight: FontWeight.w400),
+              ),
+              trailing: Icon(
+                Icons.keyboard_arrow_right,
+                size: 29,
+                color: Colors.deepPurple[900],
+              ),
+            ),
+          ],
+        ));
+  }
+}
 
 Container _builddivider() {
   return Container(

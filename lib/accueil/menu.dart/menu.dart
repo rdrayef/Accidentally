@@ -5,15 +5,47 @@ import 'package:accidenyally/notification/home.dart';
 import 'package:accidenyally/parametres.dart';
 import 'package:accidenyally/profile.dart';
 import 'package:accidenyally/services/m_servicess.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 
 import '../body.dart';
 
-//import 'package:flutter_svg/flutter_svg.dart';
-class HomeScreen extends StatelessWidget {
+class Accueil extends StatefulWidget {
+  @override
+  _AccueilState createState() => _AccueilState();
+}
+
+var _userid;
+var _datn;
+
+class _AccueilState extends State<Accueil> {
+  Future<void> _getUserName() async {
+    Firestore.instance
+        .collection('utilisateurs')
+        .document((await FirebaseAuth.instance.currentUser()).uid)
+        .get()
+        .then((value) {
+      setState(() {
+        _userid = value.data['ID_utilisateur'];
+        _datn = value.data['Date_naissance'];
+      });
+      print(_userid);
+    });
+  }
+
+  @override
+  void initState() {
+    _getUserName();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    double devwidth(BuildContext context) => MediaQuery.of(context).size.width;
+    double devheight(BuildContext context) =>
+        MediaQuery.of(context).size.height;
     return Scaffold(
         body: Body(),
         appBar: AppBar(
@@ -37,9 +69,10 @@ class HomeScreen extends StatelessWidget {
               ),
             ]),
             Spacer(),
-            Text("ID :xxxxxx ",
+            Text("ID : ",
                 style:
                     TextStyle(fontWeight: FontWeight.bold, color: griscolor)),
+            Text(_userid),
           ],
         ),
         drawer: ClipPath(
