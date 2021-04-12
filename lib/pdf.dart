@@ -1,6 +1,5 @@
-/* import 'package:flutter/material.dart';
-
-import 'package:pdfviewer/Viewpdf.dart';
+/* import 'package:accidenyally/documents/viewer.dart';
+import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
@@ -30,7 +29,7 @@ class _MyAppState extends State<MyApp> {
                     padding: EdgeInsets.all(10.0),
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Viewpdf()));
+                          MaterialPageRoute(builder: (context) => /*Viewpdf()*/));
                     },
                     color: Colors.deepOrangeAccent[200],
                     child: Text(

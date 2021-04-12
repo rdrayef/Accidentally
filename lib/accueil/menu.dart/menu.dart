@@ -9,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 
 import '../body.dart';
 
@@ -18,190 +19,223 @@ class Accueil extends StatefulWidget {
 }
 
 var _userid;
-var _datn;
 
 class _AccueilState extends State<Accueil> {
-  Future<void> _getUserName() async {
-    Firestore.instance
-        .collection('utilisateurs')
-        .document((await FirebaseAuth.instance.currentUser()).uid)
-        .get()
-        .then((value) {
-      setState(() {
-        _userid = value.data['ID_utilisateur'];
-        _datn = value.data['Date_naissance'];
-      });
-      print(_userid);
-    });
-  }
-
-  @override
-  void initState() {
-    _getUserName();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     double devwidth(BuildContext context) => MediaQuery.of(context).size.width;
     double devheight(BuildContext context) =>
         MediaQuery.of(context).size.height;
-    return Scaffold(
-        body: Body(),
-        appBar: AppBar(
-          backgroundColor: bluecolor,
-          automaticallyImplyLeading: false,
-          elevation: 0,
-          actions: <Widget>[
-            Builder(
-              builder: (context) => IconButton(
-                icon: Image.asset("assets/icons/icone_menu.png"),
-                onPressed: () => Scaffold.of(context).openDrawer(),
-              ),
-            ),
-            Row(children: [
-              IconButton(
-                icon: Icon(
-                  Icons.notifications_active,
-                  color: Colors.white, //rougggecolor
+    return StreamBuilder(
+        stream: StreamGetuserdoc(context),
+        // ignore: missing_return
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: Scaffold(
+                backgroundColor: Colors.white,
+                body: Center(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.1,
+                    child: LoadingIndicator(
+                      indicatorType: Indicator.ballPulse,
+                      color: Colors.orange,
+                    ),
+                  ),
                 ),
-                onPressed: () {},
               ),
-            ]),
-            Spacer(),
-            Text("ID : ",
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: griscolor)),
-            Text(_userid),
-          ],
-        ),
-        drawer: ClipPath(
-          clipper: Drawermenu(),
-          child: Drawer(
-            child: Container(
-              color: bluecolor,
-              child: Column(
-                children: <Widget>[
-                  // const EdgeInsets.only(bottom: 24.0),
-                  ListTile(
-                    leading: Icon(Icons.people, color: Colors.white),
-                    contentPadding: EdgeInsets.fromLTRB(80, 60.0, 0.0, 0.0),
-                    title: Text(
-                      'Profile',
-                      style: Theme.of(context).textTheme.headline5.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.bold),
+            );
+          }
+          _userid = snapshot.data['ID_utilisateur'];
+
+          return Scaffold(
+              body: Body(),
+              appBar: AppBar(
+                backgroundColor: bluecolor,
+                automaticallyImplyLeading: false,
+                elevation: 0,
+                actions: <Widget>[
+                  Builder(
+                    builder: (context) => IconButton(
+                      icon: Image.asset("assets/icons/icone_menu.png"),
+                      onPressed: () => Scaffold.of(context).openDrawer(),
                     ),
-                    onTap: () => {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => profilepage(),
-                          ))
-                    },
                   ),
-                  ListTile(
-                    leading:
-                        Image.asset("assets/icons/icons8-dupliquer-24.png"),
-                    contentPadding: EdgeInsets.fromLTRB(80, 60.0, 0.0, 0.0),
-                    title: Text(
-                      'Constats',
-                      style: Theme.of(context).textTheme.headline5.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.bold),
+                  Row(children: [
+                    IconButton(
+                      icon: Icon(
+                        Icons.notifications_active,
+                        color: Colors.white, //rougggecolor
+                      ),
+                      onPressed: () {},
                     ),
-                    onTap: () => {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Constat(),
-                          ))
-                    },
-                  ),
-                  ListTile(
-                    leading: Image.asset(
-                        "assets/icons/icons8-document-statistique-24.png"),
-                    contentPadding: EdgeInsets.fromLTRB(80, 60.0, 0.0, 0.0),
-                    title: Text(
-                      'Documents',
-                      style: Theme.of(context).textTheme.headline5.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    onTap: () => {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Documents(),
-                          ))
-                    },
-                  ),
-                  ListTile(
-                    leading: Image.asset("assets/icons/icons8-service-24.png"),
-                    contentPadding: EdgeInsets.fromLTRB(80, 60.0, 0.0, 0.0),
-                    title: Text(
-                      'Services',
-                      style: Theme.of(context).textTheme.headline5.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    onTap: () => {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Servicess(),
-                          ))
-                    },
-                  ),
-                  //ooooooooooooooooooooooooooooooooooooooooooooo
-                  ListTile(
-                    leading:
-                        Icon(Icons.notifications_active, color: Colors.white),
-                    contentPadding: EdgeInsets.fromLTRB(80, 60.0, 0.0, 0.0),
-                    title: Text(
-                      'Notifications',
-                      style: Theme.of(context).textTheme.headline5.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    onTap: () => {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Notificatio(),
-                          ))
-                    },
-                  ),
-                  //oooooooooooooooooooooooooooooooooooooooooooooooooo
-                  ListTile(
-                    leading: Icon(
-                      Icons.settings,
-                      color: Colors.white,
-                    ),
-                    contentPadding: EdgeInsets.fromLTRB(80, 60.0, 0.0, 0.0),
-                    title: Text(
-                      'Paramètres',
-                      style: Theme.of(context).textTheme.headline5.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    onTap: () => {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Parametres(),
-                          ))
-                    },
-                  ),
-                  Container(
-                    padding: new EdgeInsets.only(top: 40.0),
-                    alignment: FractionalOffset(0.9, 12),
-                    child: Icon(
-                      Icons.exit_to_app,
-                      color: Colors.red,
-                    ),
-                  )
+                  ]),
+                  Spacer(),
+                  Text("ID : ",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: griscolor)),
+                  Text(_userid),
                 ],
               ),
-            ),
+              drawer: ClipPath(
+                clipper: Drawermenu(),
+                child: Drawer(
+                  child: Container(
+                    color: bluecolor,
+                    child: Column(
+                      children: <Widget>[
+                        // const EdgeInsets.only(bottom: 24.0),
+                        ListTile(
+                          leading: Icon(Icons.people, color: Colors.white),
+                          contentPadding:
+                              EdgeInsets.fromLTRB(80, 60.0, 0.0, 0.0),
+                          title: Text(
+                            'Profile',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline5
+                                .copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                          ),
+                          onTap: () => {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => profilepage(),
+                                ))
+                          },
+                        ),
+                        ListTile(
+                          leading: Image.asset(
+                              "assets/icons/icons8-dupliquer-24.png"),
+                          contentPadding:
+                              EdgeInsets.fromLTRB(80, 60.0, 0.0, 0.0),
+                          title: Text(
+                            'Constats',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline5
+                                .copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                          ),
+                          onTap: () => {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Constat(),
+                                ))
+                          },
+                        ),
+                        ListTile(
+                          leading: Image.asset(
+                              "assets/icons/icons8-document-statistique-24.png"),
+                          contentPadding:
+                              EdgeInsets.fromLTRB(80, 60.0, 0.0, 0.0),
+                          title: Text(
+                            'Documents',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline5
+                                .copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                          ),
+                          onTap: () => {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Documents(),
+                                ))
+                          },
+                        ),
+                        ListTile(
+                          leading:
+                              Image.asset("assets/icons/icons8-service-24.png"),
+                          contentPadding:
+                              EdgeInsets.fromLTRB(80, 60.0, 0.0, 0.0),
+                          title: Text(
+                            'Services',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline5
+                                .copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                          ),
+                          onTap: () => {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Servicess(),
+                                ))
+                          },
+                        ),
+                        //ooooooooooooooooooooooooooooooooooooooooooooo
+                        ListTile(
+                          leading: Icon(Icons.notifications_active,
+                              color: Colors.white),
+                          contentPadding:
+                              EdgeInsets.fromLTRB(80, 60.0, 0.0, 0.0),
+                          title: Text(
+                            'Notifications',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline5
+                                .copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                          ),
+                          onTap: () => {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Notificatio(),
+                                ))
+                          },
+                        ),
+                        //oooooooooooooooooooooooooooooooooooooooooooooooooo
+                        ListTile(
+                          leading: Icon(
+                            Icons.settings,
+                            color: Colors.white,
+                          ),
+                          contentPadding:
+                              EdgeInsets.fromLTRB(80, 60.0, 0.0, 0.0),
+                          title: Text(
+                            'Paramètres',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline5
+                                .copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                          ),
+                          onTap: () => {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Parametres(),
+                                ))
+                          },
+                        ),
+                        Container(
+                          padding: new EdgeInsets.only(top: 40.0),
+                          alignment: FractionalOffset(0.9, 12),
+                          child: Icon(
+                            Icons.exit_to_app,
+                            color: Colors.red,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
 
-            // bottomNavigationBar: MyBottomNavBar(),
-          ),
-        ));
+                  // bottomNavigationBar: MyBottomNavBar(),
+                ),
+              ));
+        });
   }
 }
 
@@ -222,4 +256,12 @@ class Drawermenu extends CustomClipper<Path> {
   bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
     return true;
   }
+}
+
+Stream<DocumentSnapshot> StreamGetuserdoc(BuildContext context) async* {
+  final mid = (await FirebaseAuth.instance.currentUser()).uid;
+  yield* Firestore.instance
+      .collection('utilisateurs')
+      .document(mid)
+      .snapshots();
 }

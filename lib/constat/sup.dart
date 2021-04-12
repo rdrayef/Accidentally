@@ -2,6 +2,7 @@ import 'package:accidenyally/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 
 class Getcons extends StatelessWidget {
   @override
@@ -9,7 +10,29 @@ class Getcons extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return StreamBuilder(
         stream: StreamGetuserdoc(context),
-        builder: (context, snapshot) {
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.1,
+                child: LoadingIndicator(
+                  indicatorType: Indicator.ballPulse,
+                  color: Colors.orange,
+                ),
+              ),
+            );
+          }
+          if (!snapshot.hasData) {
+            return Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.1,
+                child: LoadingIndicator(
+                  indicatorType: Indicator.ballPulse,
+                  color: Colors.orange,
+                ),
+              ),
+            );
+          }
           return ListView.builder(
               itemCount: snapshot.data.documents.length,
               itemBuilder: (context, index) => getcard(
@@ -119,6 +142,10 @@ Widget getcard(
                 decoration: BoxDecoration(
                   color: Colors.white,
                   image: DecorationImage(image: NetworkImage(img)),
+                ),
+                child: FadeInImage.assetNetwork(
+                  placeholder: 'assets/images/loader.gif',
+                  image: img,
                 ),
               )
             ],

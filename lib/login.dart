@@ -1,5 +1,6 @@
 import 'package:accidenyally/accueil/menu.dart/menu.dart';
 import 'package:accidenyally/colors.dart';
+import 'package:accidenyally/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'boutton.dart';
@@ -133,15 +134,15 @@ class _LgnState extends State<Lgn> {
                                           ),
                                           onPressed: () async {
                                             // if (_formkey.currentState.validate()) {
-                                            var result = await FirebaseAuth
-                                                .instance
-                                                .signInWithEmailAndPassword(
-                                                    email:
-                                                        _emailcontroller.text,
-                                                    password:
-                                                        _passwordcontroller
-                                                            .text);
-                                            if (result != null) {
+                                            FirebaseUser user =
+                                                await FirebaseAuth.instance
+                                                    .signInWithEmailAndPassword(
+                                                        email: _emailcontroller
+                                                            .text,
+                                                        password:
+                                                            _passwordcontroller
+                                                                .text);
+                                            if (user != null) {
                                               print('Welcome');
                                               print(
                                                   "==================================");
@@ -149,7 +150,9 @@ class _LgnState extends State<Lgn> {
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          Accueil()));
+                                                          Home(
+                                                            user: user,
+                                                          )));
                                             } else {
                                               print('user not found');
                                             }

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 
 import '../colors.dart';
 
@@ -8,12 +9,21 @@ class Testscard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    var types;
-    var fichiers;
     return Expanded(
         child: new StreamBuilder(
             stream: StreamGetuserdoc(context),
-            builder: (context, snapshot) {
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.1,
+                    child: LoadingIndicator(
+                      indicatorType: Indicator.ballPulse,
+                      color: Colors.orange,
+                    ),
+                  ),
+                );
+              }
               return ListView.builder(
                   itemCount: snapshot.data.documents.length,
                   itemBuilder: (context, index) {

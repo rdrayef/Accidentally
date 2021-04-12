@@ -3,6 +3,7 @@ import 'package:accidenyally/constat/sup.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 
 import '../colors.dart';
 
@@ -11,7 +12,16 @@ class Constat extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder(
         stream: StreamGetuserdoc(context),
-        builder: (context, snapshot) {
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Container(
+              width: MediaQuery.of(context).size.width * 0.1,
+              child: LoadingIndicator(
+                indicatorType: Indicator.ballPulse,
+                color: Colors.orange,
+              ),
+            );
+          }
           int total = snapshot.data.documents.length;
           return Scaffold(
             backgroundColor: Colors.white,

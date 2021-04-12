@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:ui';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -60,6 +59,10 @@ class _profilepageState extends State<profilepage> {
 
   Future<void> update() async {
     //  final user = await FirebaseAuth.instance.currentUser();
+    var storigeimg = FirebaseStorage.instance.ref().child(_image.path);
+    var timg = storigeimg.putFile(_image);
+    var imgurl = await (await timg.onComplete).ref.getDownloadURL();
+    // var rl = imgurl.toString();
     return Firestore.instance
         .collection('utilisateurs')
         .document((await FirebaseAuth.instance.currentUser()).uid)
@@ -70,7 +73,7 @@ class _profilepageState extends State<profilepage> {
       'Adresse': _adressecontroller.text,
       'CIN': _cincontroller.text,
       'Login': _emailcontroller.text,
-      'img_profile': _image.path,
+      'img_profile': imgurl,
       // 'Password': _pswdcontroller.text,
       'Date_naissance': _datenaissancecontroller.text,
     });
