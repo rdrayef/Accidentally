@@ -3,7 +3,6 @@ import 'package:accidenyally/colors.dart';
 import 'package:accidenyally/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'boutton.dart';
 import 'documents/test.dart';
 import 'inscription.dart';
 

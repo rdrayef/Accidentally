@@ -1,3 +1,4 @@
+import 'package:accidenyally/constateur/Declaration/verification/Verification.dart';
 import 'package:accidenyally/constateur/colors.dart';
 import 'package:accidenyally/constateur/costateur_accueil.dart';
 import 'package:flutter/material.dart';
@@ -152,7 +153,7 @@ class Appb extends StatelessWidget {
           children: [
             Container(
               margin: EdgeInsets.only(top: 110),
-              height: 460,
+              height: 340,
               width: 340,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -170,41 +171,20 @@ class Appb extends StatelessWidget {
               ),
               child: getbody(),
             ),
-            Container(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 200, top: 0),
-                child: Row(
-                  children: [
-                    Container(
-                        child: Text(
-                      "Afficher puls ",
-                      style: TextStyle(
-                          color: griscolor,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold),
-                    )),
-                    Container(
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.trending_neutral,
-                          size: 32,
-                        ),
-                        color: rougecolor,
-                        onPressed: () {},
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
             Padding(
-              padding: const EdgeInsets.only(left: 280.0, top: 7),
+              padding: const EdgeInsets.only(left: 280.0, top: 2),
               child: CircleAvatar(
                 backgroundColor: bluecolor,
                 radius: 30,
                 child: IconButton(
-                  icon: Image.asset("assets/icons/ajouter-le-fichier.png"),
-                  onPressed: () {},
+                  icon: Icon(Icons.file_copy),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Tst(),
+                        ));
+                  },
                 ),
               ),
             )

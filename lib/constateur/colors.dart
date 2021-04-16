@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 const bluecolor = Color(0xFF301A93);
 const rougecolor = Color(0xFFDC2121);
 const bluecolors = Color(0xFFD3E1EE);
+const bluecolors2 = Color(0xFFF3F8FE);
 const vertcolor = Color(0xFF168A76);
 const griscolor = Color(0xFF707070);
 const pyscolors = Color(0xFF1AF028);
