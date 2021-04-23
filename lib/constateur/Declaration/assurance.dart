@@ -1,11 +1,11 @@
-import 'package:accidenyally/constateur/Declaration/Information_vehicule.dart';
-import 'package:accidenyally/constateur/Declaration/assurance.dart';
 import 'package:accidenyally/constateur/Declaration/verification/permis.dart';
 import 'package:accidenyally/constateur/colors.dart';
-import 'package:accidenyally/constateur/menu.dart';
 import 'package:flutter/material.dart';
 
-class Infos extends StatelessWidget {
+class Infosassurance extends StatelessWidget {
+  TextEditingController _dateexpController = TextEditingController();
+
+  TextEditingController _dateatrController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     double devwidth(BuildContext context) => MediaQuery.of(context).size.width;
@@ -15,7 +15,7 @@ class Infos extends StatelessWidget {
         appBar: new AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
-            title: Text("Informations conducteur",
+            title: Text("Informations Assurance",
                 style: TextStyle(
                     color: bluecolor,
                     fontSize: 23,
@@ -23,38 +23,17 @@ class Infos extends StatelessWidget {
             centerTitle: true,
             leading: IconButton(
               icon: Icon(
-                Icons.cancel_rounded,
+                Icons.home_work_outlined,
                 size: 30,
                 color: rougggecolor,
               ),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Constateur(),
-                    ));
-              },
+              onPressed: () {},
             )),
         backgroundColor: bluecolors2,
         body: Container(
           margin: EdgeInsets.only(top: devheight(context) * 0.025),
           child: SingleChildScrollView(
             child: Column(children: [
-              Align(
-                child: CircleAvatar(
-                  backgroundColor: bluecolor,
-                  radius: 50,
-                  child: ClipOval(
-                    child: SizedBox(
-                      width: 100,
-                      child: Image.network(
-                        "https://firebasestorage.googleapis.com/v0/b/accidentally-d3dca.appspot.com/o/user.jpg?alt=media&token=a4a11c90-990b-455b-a545-36eedd5a1213",
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
               SizedBox(
                 height: devheight(context) * 0.05,
               ),
@@ -75,10 +54,10 @@ class Infos extends StatelessWidget {
                         child: TextField(
                           autocorrect: true,
                           decoration: InputDecoration(
-                            hintText: 'Nom',
-                            labelText: 'Nom',
+                            hintText: 'Sté Assurance',
+                            labelText: 'Sté Assurance',
                             suffixIcon: Icon(
-                              Icons.person,
+                              Icons.apartment_rounded,
                               color: bluecolor,
                             ),
                             hintStyle: TextStyle(color: Colors.grey),
@@ -114,10 +93,154 @@ class Infos extends StatelessWidget {
                       child: TextField(
                         autocorrect: true,
                         decoration: InputDecoration(
-                          hintText: 'prénom',
-                          labelText: 'Prénom',
+                          hintText: 'N° Attestation',
+                          labelText: 'N° Attestation',
                           suffixIcon: Icon(
-                            Icons.person,
+                            Icons.article_rounded,
+                            color: bluecolor,
+                          ),
+                          hintStyle: TextStyle(color: Colors.grey),
+                          filled: true,
+                          fillColor: Colors.white70,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(12.0)),
+                            borderSide:
+                                BorderSide(color: Colors.transparent, width: 2),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0)),
+                            borderSide: BorderSide(color: blufanccolor),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: devheight(context) * 0.03,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            offset: Offset(0, 5),
+                            blurRadius: 10.0,
+                            color: blufanccolor.withOpacity(0.5),
+                          ),
+                        ],
+                      ),
+                      width: devwidth(context) * 0.9,
+                      child: TextField(
+                        controller: _dateatrController,
+                        autocorrect: true,
+                        decoration: InputDecoration(
+                          hintText: 'Date d\'attribution',
+                          labelText: 'Date d\'attribution',
+                          suffixIcon: IconButton(
+                            onPressed: () async {
+                              var date = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(1900),
+                                  lastDate: DateTime(2100));
+                              _dateatrController.text =
+                                  date.toString().substring(0, 10);
+                            },
+                            icon: Icon(
+                              Icons.calendar_today,
+                              color: bluecolor,
+                            ),
+                          ),
+                          hintStyle: TextStyle(color: Colors.grey),
+                          filled: true,
+                          fillColor: Colors.white70,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(12.0)),
+                            borderSide:
+                                BorderSide(color: Colors.transparent, width: 2),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0)),
+                            borderSide: BorderSide(color: blufanccolor),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: devheight(context) * 0.03,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            offset: Offset(0, 5),
+                            blurRadius: 10.0,
+                            color: blufanccolor.withOpacity(0.5),
+                          ),
+                        ],
+                      ),
+                      width: devwidth(context) * 0.9,
+                      child: TextField(
+                        controller: _dateexpController,
+                        autocorrect: true,
+                        decoration: InputDecoration(
+                          hintText: 'Date d\'expiration',
+                          labelText: 'Date d\'expiration',
+                          suffixIcon: IconButton(
+                            onPressed: () async {
+                              var date = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(1900),
+                                  lastDate: DateTime(2100));
+                              _dateexpController.text =
+                                  date.toString().substring(0, 10);
+                            },
+                            icon: Icon(
+                              Icons.calendar_today,
+                              color: bluecolor,
+                            ),
+                          ),
+                          hintStyle: TextStyle(color: Colors.grey),
+                          filled: true,
+                          fillColor: Colors.white70,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(12.0)),
+                            borderSide:
+                                BorderSide(color: Colors.transparent, width: 2),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0)),
+                            borderSide: BorderSide(color: blufanccolor),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: devheight(context) * 0.03,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            offset: Offset(0, 5),
+                            blurRadius: 10.0,
+                            color: blufanccolor.withOpacity(0.5),
+                          ),
+                        ],
+                      ),
+                      width: devwidth(context) * 0.9,
+                      child: TextField(
+                        autocorrect: true,
+                        decoration: InputDecoration(
+                          hintText: 'Agence',
+                          labelText: 'Agence',
+                          suffixIcon: Icon(
+                            Icons.support_agent,
                             color: bluecolor,
                           ),
                           hintStyle: TextStyle(color: Colors.grey),
@@ -154,10 +277,10 @@ class Infos extends StatelessWidget {
                       child: TextField(
                         autocorrect: true,
                         decoration: InputDecoration(
-                          hintText: 'CIN',
-                          labelText: 'CIN',
+                          hintText: 'N°Police',
+                          labelText: 'N°Police',
                           suffixIcon: Icon(
-                            Icons.badge,
+                            Icons.local_police_rounded,
                             color: bluecolor,
                           ),
                           hintStyle: TextStyle(color: Colors.grey),
@@ -178,47 +301,7 @@ class Infos extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      height: devheight(context) * 0.03,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            offset: Offset(0, 5),
-                            blurRadius: 10.0,
-                            color: blufanccolor.withOpacity(0.5),
-                          ),
-                        ],
-                      ),
-                      width: devwidth(context) * 0.9,
-                      child: TextField(
-                        autocorrect: true,
-                        decoration: InputDecoration(
-                          hintText: 'Adresse',
-                          labelText: 'Adresse',
-                          suffixIcon: Icon(
-                            Icons.house,
-                            color: bluecolor,
-                          ),
-                          hintStyle: TextStyle(color: Colors.grey),
-                          filled: true,
-                          fillColor: Colors.white70,
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(12.0)),
-                            borderSide:
-                                BorderSide(color: Colors.transparent, width: 2),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)),
-                            borderSide: BorderSide(color: blufanccolor),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: devheight(context) * 0.1,
+                      height: devheight(context) * 0.05,
                     ),
                     Container(
                       margin: EdgeInsets.only(
@@ -235,7 +318,7 @@ class Infos extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => Infosvehicule(),
+                                    builder: (context) => InfosPermis(),
                                   ));
                             },
                             child: Icon(
@@ -244,7 +327,7 @@ class Infos extends StatelessWidget {
                               size: 45,
                             ),
                           )),
-                    )
+                    ),
                   ],
                 ),
               )
